@@ -75,6 +75,7 @@ Plugin 'ryanoasis/vim-devicons'
 Plugin 'jistr/vim-nerdtree-tabs'
 Plugin 'tiagofumo/vim-nerdtree-syntax-highlight'
 Plugin 'tpope/vim-fugitive'
+Plugin 'airblade/vim-gitgutter'
 Plugin 'kien/ctrlp.vim'
 Plugin 'elixir-lang/vim-elixir'
 
@@ -97,8 +98,8 @@ let NERDTreeMinimalUI = 1
 let NERDTreeDirArrows = 1
 let NERDTreeAutoDeleteBuffer = 1
 let NERDTreeShowHidden = 1
-map <C-b> :NERDTreeToggle<CR>
 let g:NERDTreeLimitedSyntax = 1
+map <C-b> :NERDTreeToggle<CR>
 
 " autocmd BufWinEnter * NERDTreeMirror
 " autocmd VimEnter * wincmd w
@@ -128,8 +129,8 @@ let base16colorspace=256
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#branch#enabled=1
-set laststatus=2
 let g:airline_theme='one'
+set laststatus=2
 
 " Enable heavy omni completion.
 if !exists('g:neocomplete#sources#omni#input_patterns')
@@ -146,7 +147,7 @@ let g:ctrlp_working_path_mode = 'ra'
 " Elite mode
 let g:elite_mode=1
 
-" TAB commpletion
+" TAB completion
 inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
 
 " Switch and close buffers
