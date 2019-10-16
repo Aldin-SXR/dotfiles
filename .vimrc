@@ -59,40 +59,25 @@ filetype indent on
 set ttyfast
 set lazyredraw
 
-" set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-" alternatively, pass a path where Vundle should install plugins
-"call vundle#begin('~/some/path/here')
+" Set the runtime path to include Vim-Plug and initialize
+call plug#begin('~/.vim/plugged')
 
-" let Vundle manage Vundle, required
-Plugin 'VundleVim/Vundle.vim'
-Plugin 'scrooloose/nerdtree'
-Plugin 'vim-airline/vim-airline'
-Plugin 'vim-airline/vim-airline-themes'
-Plugin 'rakr/vim-one'
-Plugin 'ryanoasis/vim-devicons'
-Plugin 'jistr/vim-nerdtree-tabs'
-Plugin 'tiagofumo/vim-nerdtree-syntax-highlight'
-Plugin 'tpope/vim-fugitive'
-Plugin 'airblade/vim-gitgutter'
-Plugin 'kien/ctrlp.vim'
-Plugin 'elixir-lang/vim-elixir'
+Plug 'scrooloose/nerdtree'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+Plug 'rakr/vim-one'
+Plug 'ryanoasis/vim-devicons'
+Plug 'jistr/vim-nerdtree-tabs'
+Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+Plug 'tpope/vim-fugitive'
+Plug 'airblade/vim-gitgutter'
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --bin' }
+Plug 'junegunn/fzf.vim'
+Plug 'tpope/vim-eunuch'
 
 " All of your Plugins must be added before the following line
-call vundle#end()            " required
+call plug#end()            " required
 filetype plugin indent on    " required
-" To ignore plugin indent changes, instead use:
-"filetype plugin on
-"
-" Brief help
-" :PluginList       - lists configured plugins
-" :PluginInstall    - installs plugins; append `!` to update or just :PluginUpdate
-" :PluginSearch foo - searches for foo; append `!` to refresh local cache
-" :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
-"
-" see :h vundle for more details or wiki for FAQ
-" Put your non-Plugin stuff after this line
 
 let NERDTreeMinimalUI = 1
 let NERDTreeDirArrows = 1
@@ -100,6 +85,9 @@ let NERDTreeAutoDeleteBuffer = 1
 let NERDTreeShowHidden = 1
 let g:NERDTreeLimitedSyntax = 1
 map <C-b> :NERDTreeToggle<CR>
+
+" FZF mapping
+map <C-p> :Files<CR>
 
 " autocmd BufWinEnter * NERDTreeMirror
 " autocmd VimEnter * wincmd w
@@ -132,18 +120,6 @@ let g:airline#extensions#branch#enabled=1
 let g:airline_theme='one'
 set laststatus=2
 
-" Enable heavy omni completion.
-if !exists('g:neocomplete#sources#omni#input_patterns')
-  let g:neocomplete#sources#omni#input_patterns = {}
-endif
-
-" CtrlP
-let g:ctrlp_map = '<c-p>'
-let g:ctrlp_cmd = 'CtrlP'
-let g:ctrlp_match_window = 'bottom,order:ttb'
-let g:ctrlp_switch_buffer = 0
-let g:ctrlp_working_path_mode = 'ra'
-
 " Elite mode
 let g:elite_mode=1
 
@@ -155,11 +131,15 @@ noremap <silent> <C-x> :bn \| bd #<CR>
 noremap <silent> <C-e> :bn<CR>
 noremap <silent> <C-q> :bp<CR> 
 
+" Allow <C-q> mapping
+" silent !stty ixon > /dev/null 2>/dev/null
+
 augroup vimrc_autocmd
     autocmd!
     " NERDTree settings
     autocmd vimenter * NERDTree
     autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+    autocmd BufEnter * lcd %:p:h
     " Autocomplete settings
     autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
     autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
@@ -167,6 +147,8 @@ augroup vimrc_autocmd
     au BufNewFile,BufFilePre,BufRead *.md set filetype=markdown
     " Auto-compile Markdown to PDF (requires Pandoc)
     autocmd BufWritePost *.md execute ':silent ! file=%; pandoc $file -s -o $file.pdf'
+    " Return stty settings to default
+    " autocmd VimLeave * silent stty ixon
 augroup END
 
 set timeout " Do time out on mappings and others
