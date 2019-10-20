@@ -24,6 +24,9 @@ set t_Co=256
 set cursorline  
 set backspace=indent,eol,start
 
+" Toggle relative line numbers
+noremap <C-n> :set relativenumber! <CR> 
+
 " No backup/swap
 set nobackup
 set nowb
